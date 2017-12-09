@@ -15,16 +15,16 @@ const getters = {
   [gType.INTERVIEWSET_LIST]: state => state.interviewsets,
   [gType.INTERVIEWSET_NAME]: state => state.name,
   [gType.INTERVIEWSET_TAGS]: state => state.tags,
-  [gType.INTERVIEWSET_TAG]: state => {
-    let tag = state.tags.filter(x => x.key === state.selectedTag)[0]
-    if (tag !== undefined) {
-      return tag
-    }
-    else {
-      // console.log('g_tag_error')
-      return {}
-    }
-  },
+  // [gType.INTERVIEWSET_TAG]: state => {
+  //   let tag = state.tags.filter(x => x.key === state.selectedTag)[0]
+  //   if (tag !== undefined) {
+  //     return tag
+  //   }
+  //   else {
+  //     // console.log('g_tag_error')
+  //     return {}
+  //   }
+  // },
   [gType.INTERVIEWSET_TAG_QUESTIONS]: state => {
     let tag = state.tags.filter(x => x.key === state.selectedTag)[0]
     if (tag !== undefined) {
@@ -37,19 +37,10 @@ const getters = {
   }
 }
 
-// const actions = {
-//   [aType.INTERVIEWSET_UPDATE_NAME] ({commit, state}) {
-//     api.isValidToken(
-//       () => commit(mType.AUTH_SUCCESS),
-//       () => commit(mType.AUTH_FAILURE)
-//     )
-//   }
-// }
-//
 const mutations = {
   [mType.INTERVIEWSET_INIT] (state) {
     state.name = ''
-    // state.tags = [{ key: 'common', label: '일반 질문', questions: [] }]
+    state.tags = [{ key: 'common', label: '일반 질문', questions: [] }]
     state.selectedTag = undefined
   },
   [mType.INTERVIEWSET_UPDATE_NAME] (state, name) {

@@ -21,7 +21,15 @@ Vue.config.productionTip = false
 Vue.use(Quasar, {
   components: All,
   directives: All
-}) // Install Quasar Framework
+})
+// TODO ALL 컴포넌트는 성능에 영향을 미친다고한다. 테스트 필요
+// Install Quasar Framework
+
+All.Toast.setDefaults({
+  // props from above
+  color: '#eee',
+  timeout: 1000
+})
 
 Vue.use(Vuelidate)
 

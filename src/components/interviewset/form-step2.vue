@@ -13,19 +13,19 @@
           <q-card-main>
             <q-data-table :data="allQuestions" :config="config" :columns="columns" >
             <!-- <q-data-table :data="table" :config="config" :columns="columns" @refresh="refresh" > -->
-              <!-- Custom renderer for "message" column -->
-              <template slot="question" scope="cell">
-                <span>{{cell.question}}</span>
+              <!-- Custom renderer for "message"   column -->
+              <template slot="col-question" scope="cell">
+                <span>{{cell.data}}</span>
               </template>
-              <template slot='col-choose' scope='cell'>
                <!-- <q-btn color="primary" @click='doSomethingMethod(cell.row.id)'>View</q-btn> -->
-               <template v-if="cell.row.choose === true">
-                 <q-btn color="primary" @click="toggleChoice(cell.row)">선택됨</q-btn>
+              <template slot="col-choose" scope='cell'>
+                <template v-if="cell.row.choose === true">
+                  <q-btn color="primary" @click="toggleChoice(cell.row)">선택됨</q-btn>
+                </template>
+                <template v-if="cell.row.choose != true">
+                  <q-btn color="primary" outline @click="toggleChoice(cell.row)">선택</q-btn>
                </template>
-               <template v-if="cell.row.choose != true">
-                 <q-btn color="primary" outline @click="toggleChoice(cell.row)">선택</q-btn>
-               </template>
-             </template>
+              </template>
             </q-data-table>
           </q-card-main>
           <q-card-separator />
@@ -108,6 +108,10 @@ export default {
         })
       }
     }
+    this.interviewsetTags.filter(x => x.key === selectedTag)
+      .forEach(x => {
+        this.interviewsetTag = x
+      })
   },
   data () {
     return {
@@ -154,18 +158,18 @@ export default {
         }
       ],
       name: '',
-      terms: ''
+      terms: '',
+      interviewsetTag: {}
     }
   },
   computed: {
     ...mapGetters({
-      interviewsetTag: gType.INTERVIEWSET_TAG,
+      interviewsetTags: gType.INTERVIEWSET_TAGS,
       questions: gType.INTERVIEWSET_TAG_QUESTIONS
     })
   },
   methods: {
     toggleChoice: function (row) {
-      console.log('>>', this.questions.length, this.questions)
       let list = this.allQuestions.filter(x => x.id === row.id)
       if (list.length > 0) {
         let item = list[0]
@@ -177,7 +181,6 @@ export default {
           let index = this.questions.findIndex(x => x.id === row.id)
           this.questions.splice(index, 1)
         }
-        // this.$store.commit(mType.INTERVIEWSET_UPDATE_TAG_QUESTION, {tag: this.interviewsetTag, questions: this.questions})
       }
     },
     removeQuestionFromList: function (index, id) {
@@ -194,9 +197,7 @@ export default {
       }
     },
     moveQuestion: function (id, direction) {
-      // let data = this.table
       alert('언젠가는 구현할게요~')
-      // return
       if (direction === 'up') {
 
       }
@@ -211,7 +212,6 @@ export default {
       })
     },
     doneCreateQuestion: function () {
-      // this.$state.commit(mType.INTERVIEWSET_UPDATE_TAG_QUESTION)
       this.$router.go(-1)
     }
   }

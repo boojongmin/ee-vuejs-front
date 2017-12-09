@@ -65,6 +65,48 @@ export default new VueRouter({
           ]
         },
         {
+          name: '직종별 질문 관리',
+          path: 'question',
+          redirect: '/question/list',
+          component: load('sub-layout'),
+          children: [
+            {
+              name: '직종별 질문 목록',
+              path: 'list',
+              component: load('question/list')
+            },
+            {
+              name: '질문 생성',
+              path: 'create',
+              component: load('question/create')
+            },
+            {
+              name: '질문 상세',
+              path: 'detail/:index',
+              component: load('question/detail')
+            }
+
+          ]
+        },
+        {
+          name: '인터뷰 요청',
+          path: 'request',
+          redirect: '/request/list',
+          component: load('sub-layout'),
+          children: [
+            {
+              name: '목록',
+              path: 'list',
+              component: load('request/list')
+            },
+            {
+              name: '인터뷰 요청하기',
+              path: 'create/:id',
+              component: load('request/create')
+            }
+          ]
+        },
+        {
           name: 'interview-status',
           path: 'interview-status',
           component: load('interviewset/interview-status-list')

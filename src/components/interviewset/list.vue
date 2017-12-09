@@ -2,10 +2,7 @@
   <div>
     <div class="row">
       <div class="col-md-12 text-right">
-        <q-btn @click="moveForm()">
-          <q-icon name="create"/>
-          create interviewset
-        </q-btn>
+        <q-btn @click="moveForm()"> <q-icon name="create"/> create interviewset </q-btn>
         <p/>
       </div>
     </div>
