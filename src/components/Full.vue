@@ -7,8 +7,8 @@
         <q-icon name="menu" />
       </q-btn>
       <q-toolbar-title>
-        EE Header
-        <span slot="subtitle">Hellow world</span>
+        LogInterview
+        <span slot="subtitle">Employee</span>
       </q-toolbar-title>
       <!-- <q-btn flat @click="$refs.layout.toggleRight()">
         <q-icon name="menu" />
@@ -25,23 +25,17 @@
     <!-- Left Side Panel -->
     <div slot="left">
       <q-list no-border link inset-separator>
-        <q-list-header>Some menu</q-list-header>
-        <q-side-link item to="/docs">
-          <q-item-side icon="school" />
-          <q-item-main label="Docs" sublabel="quasar-framework.org" />
-        </q-side-link>
-        <q-side-link item to="/forum">
-          <q-item-side icon="record_voice_over" />
-          <q-item-main label="Forum" sublabel="forum.quasar-framework.org" />
-        </q-side-link>
-        <q-side-link item to="/chat">
-          <q-item-side icon="chat" />
-          <q-item-main label="Gitter Channel" sublabel="Quasar Lobby" />
-        </q-side-link>
-        <q-list-header>User Manage</q-list-header>
+        <q-list-header>계정관리</q-list-header>
         <q-side-link item to="/twitter">
-          <q-item-side icon="rss feed" />
-          <q-item-main label="Twitter" sublabel="@quasarframework" />
+          <q-item-side icon="rss feed" /> <q-item-main label="계정관리"/>
+        </q-side-link>
+        <q-side-link item to="/twitter">
+          <q-item-side icon="rss feed" /> <q-item-main label="로그아웃"/>
+        </q-side-link>
+        <q-list-header>Q&A</q-list-header>
+        <q-side-link item to="/twitter">
+          <q-item-side icon="record_voice_over" />
+          <q-item-main label="1:1 게시판" sublabel="@quasarframework" />
         </q-side-link>
       </q-list>
     </div>
@@ -52,7 +46,7 @@
     <router-view />
     <q-toolbar slot="footer">
       <q-toolbar-title>
-        EE Footer
+        LogInterview
       </q-toolbar-title>
     </q-toolbar>
   </q-layout>

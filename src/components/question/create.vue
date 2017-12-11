@@ -31,15 +31,21 @@
           <q-card-main>
             <q-list>
               <q-list-header>질문 목록</q-list-header>
-              <q-item v-for="(item, index) in questions">
-                <q-item-side icon="note" />
+              <q-item v-for="(item, index) in questions" multiline>
+                <!--<q-item-side icon="note" />-->
                 <q-item-main>
-                  <q-item-tile label>{{item}}</q-item-tile> 
+                  <q-item-tile label>질문 <span>{{index + 1}}</span></q-item-tile>
+                  <q-item-tile sublabel>
+                   {{item}}
+                  </q-item-tile>
                 </q-item-main>
+                <!--<q-item-main>-->
+                  <!--<q-item-tile sublabel>{{item}}</q-item-tile>-->
+                <!--</q-item-main>-->
                 <q-item-side right> <q-item-tile icon="keyboard arrow up" @click="moveQuestion(index, -1)"/> </q-item-side>
                 <q-item-side right> <q-item-tile icon="keyboard arrow down" @click="moveQuestion(index, 1)"/> </q-item-side>
                 <q-item-side right> <q-item-tile icon="delete" @click="questions.splice(index, 1);"/> </q-item-side>
-      
+
               </q-item>
             </q-list>
           </q-card-main>
