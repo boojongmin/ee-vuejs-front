@@ -8,7 +8,7 @@ function load (component) {
   return () => import(`@/${component}.vue`)
 }
 
-export default new VueRouter({
+let router = new VueRouter({
   /*
    * NOTE! VueRouter "history" mode DOESN'T works for Cordova builds,
    * it is only to be used only for websites.
@@ -26,47 +26,64 @@ export default new VueRouter({
 
   routes: [
     {
-      path: '',
+      name: '회원',
+      path: '/',
+      component: load('account/Full'),
+      children: [
+        {
+          name: '로그인',
+          path: '/',
+          component: load('account/login')
+        },
+        {
+          name: '계정 생성',
+          path: '/join',
+          component: load('account/join')
+        }
+      ]
+    },
+    {
+      path: '/',
       name: '메인',
-      redirect: '/dashboard',
       component: load('Full'),
       children: [
         {
           name: '대시보드',
-          path: 'dashboard',
-          component: load('dashboard/dashboard')
+          path: '/dashboard',
+          component: load('dashboard/dashboard'),
+          auth: true
         },
         {
           name: '인터뷰셋',
-          path: 'interviewset',
+          path: '/interviewset',
           redirect: '/interviewset/list',
           component: load('sub-layout'),
           children: [
             {
               name: '목록',
-              path: 'list',
+              path: '/list',
               component: load('interviewset/list')
             },
             {
-              name: '인터뷰셋 ',
-              path: 'form',
+              name: '인터뷰셋',
+              path: '/form',
               component: load('interviewset/form')
             },
             {
-              name: '인터뷰셋 ',
-              path: 'form-step2/:key',
+              name: '인터뷰셋2',
+              path: '/form-step2/:key',
               component: load('interviewset/form-step2')
             },
             {
               name: '인터뷰 요청',
-              path: 'request-interview',
+              path: '/request-interview',
               component: load('interviewset/request-interview')
             }
           ]
         },
         {
           name: '직종별 질문 관리',
-          path: 'question',
+          path: '/question',
           redirect: '/question/list',
           component: load('sub-layout'),
           children: [
@@ -90,7 +107,7 @@ export default new VueRouter({
         },
         {
           name: '인터뷰 요청',
-          path: 'request',
+          path: '/request',
           redirect: '/request/list',
           component: load('sub-layout'),
           children: [
@@ -117,3 +134,5 @@ export default new VueRouter({
     { path: '*', component: load('Error404') } // Not found
   ]
 })
+
+export default router

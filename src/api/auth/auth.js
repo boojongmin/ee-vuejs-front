@@ -14,5 +14,19 @@ export default {
     }, () => {
       errorCb()
     })
+  },
+  login (email, password, cb, errorCb) {
+    axios.post('/api/ee/account/login', { email: email, password: password }).then((response) => {
+      if (response.data.status) {
+        console.error(response.data)
+        console.error(response.data.message)
+        cb(response.data.message)
+      }
+      else {
+        errorCb()
+      }
+    }, () => {
+      errorCb()
+    })
   }
 }

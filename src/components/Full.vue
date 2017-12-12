@@ -56,6 +56,12 @@ export default {
   data () {
     return {
     }
+  },
+  mounted: function () {
+    // TODO : vue router가 시작할때는 검사를 제대로 못하는 문제가 있다. 땜빵 코드를 넣었지만 뭔가 찝찝하다.
+    if (this.$store.state.auth.isAuthenticated === false) {
+      this.$router.push('/')
+    }
   }
 }
 </script>

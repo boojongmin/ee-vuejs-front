@@ -45,14 +45,21 @@ import 'quasar-extras/material-icons'
 
 Quasar.start(() => {
   /* eslint-disable no-new */
-  new Vue({
+  let app = new Vue({
     el: '#q-app',
     router,
     store,
     render: h => h(require('./App').default)
   })
-})
 
-router.beforeEach((to, from, next) => {
-  next()
+  router.beforeEach((to, from, next) => {
+    console.error(to)
+    if (to.path !== '/' && to.path !== '/join') {
+      console.error('>>>>')
+      if (app.$store.state.auth.isAuthenticated === false) {
+        next('/')
+      }
+    }
+    next()
+  })
 })
