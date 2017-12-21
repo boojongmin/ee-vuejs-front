@@ -16,6 +16,7 @@ import router from './router'
 import axios from 'axios'
 import Vuelidate from 'vuelidate'
 import store from './store'
+import { auth } from './api'
 
 Vue.config.productionTip = false
 Vue.use(Quasar, {
@@ -43,23 +44,37 @@ import 'quasar-extras/material-icons'
 // import 'quasar-extras/fontawesome'
 // import 'quasar-extras/animate'
 
+// TODO 라우터쪽 코드 열라 더럽네 아놔...
+router.beforeEach((to, from, next) => {
+  console.error('ddd', to.path)
+  if (to.path !== '/' && to.path !== '/join') {
+    if (store.state.auth.isAuthenticated === false) {
+      next('/')
+    }
+    next()
+  }
+  else {
+    let jwt = localStorage.getItem('ee.jwt')
+    if (jwt !== '') {
+      auth.isValidToken(() => {
+        store.state.auth.isAuthenticated = true
+        next('/dashboard')
+      }, () => {
+        next('/')
+      })
+    }
+    else {
+      next('/')
+    }
+  }
+})
+
 Quasar.start(() => {
   /* eslint-disable no-new */
-  let app = new Vue({
+  new Vue({
     el: '#q-app',
     router,
     store,
     render: h => h(require('./App').default)
-  })
-
-  router.beforeEach((to, from, next) => {
-    console.error(to)
-    if (to.path !== '/' && to.path !== '/join') {
-      console.error('>>>>')
-      if (app.$store.state.auth.isAuthenticated === false) {
-        next('/')
-      }
-    }
-    next()
   })
 })

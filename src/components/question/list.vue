@@ -11,7 +11,7 @@
             <q-list highlight>
               <q-list-header>interviewset list</q-list-header>
               <template v-if="jobQuestions.length > 0">
-                <q-item v-for="(item, index) in jobQuestions" @click="$router.push('/question/detail/' + index)">
+                <q-item v-for="(item, index) in jobQuestions" @click="$router.push('/question/detail/' + index)" :key="item.jobName">
                   <q-item-side icon="note" />
                   <q-item-main>
                     <q-item-tile label>{{item.jobName}}</q-item-tile> 

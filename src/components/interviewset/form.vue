@@ -51,7 +51,7 @@
           <q-card-separator />
           <q-card-main>
             <q-list>
-              <q-item v-for="item in interviewsetTags">
+              <q-item v-for="item in interviewsetTags" :key="item.label">
                 <q-item-main>{{ item.label }}</q-item-main>
                 <q-item-side right>
                   <q-btn color="primary" big @click="$router.push('/interviewset/form-step2/' + item.key )">선택({{item.questions.length}})</q-btn>

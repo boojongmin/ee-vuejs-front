@@ -16,7 +16,7 @@
           <q-card-main>
             <q-list highlight>
               <q-list-header>interviewset list</q-list-header>
-              <q-item v-for="(item, index) in interviewsetList" @click="showInterviewsetQuestions(index)">
+              <q-item v-for="(item, index) in interviewsetList" @click="showInterviewsetQuestions(index)" :key="item.label">
                 <q-item-side icon="note" color="green" />
                 <q-item-main>
                    <q-item-tile label>{{item.label}}</q-item-tile> 
@@ -38,7 +38,7 @@
           <q-card-main>
             <q-list highlight>
               <q-list-header>JAVA 프로그래머 detail</q-list-header>
-              <q-item v-for="(item, index) in questions"> {{index + 1}}. {{item.question}} </q-item>
+              <q-item v-for="(item, index) in questions" :key="item.question"> {{index + 1}}. {{item.question}} </q-item>
             </q-list>
           </q-card-main>
           <q-card-separator />

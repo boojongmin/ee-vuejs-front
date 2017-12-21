@@ -3,8 +3,8 @@ import qs from 'query-string'
 
 export default {
   isValidToken (cb, errorCb) {
-    axios.post('/ee/api/jwt/validate', qs.stringify({jwt: localStorage.getItem('ee.jwt')})).then((response) => {
-      console.log(response)
+    axios.post('/api/ee/jwt/validate', qs.stringify({jwt: localStorage.getItem('ee.jwt')})).then((response) => {
+      console.error('response', response)
       if (response.data.status) {
         cb()
       }
@@ -18,8 +18,6 @@ export default {
   login (email, password, cb, errorCb) {
     axios.post('/api/ee/account/login', { email: email, password: password }).then((response) => {
       if (response.data.status) {
-        console.error(response.data)
-        console.error(response.data.message)
         cb(response.data.message)
       }
       else {

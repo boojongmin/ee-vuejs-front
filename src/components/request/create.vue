@@ -7,7 +7,7 @@
           <q-card-separator />
           <q-card-main>
             <template v-if="jobQuestion !== {}">
-              <q-item v-for="(item, index) in jobQuestion.questions">
+              <q-item v-for="(item, index) in jobQuestion.questions" :key="item">
                 <!-- <q-item-side icon="" /> -->
                 <q-item-main> <q-item-tile label>{{index + 1}}. {{item}}</q-item-tile> </q-item-main> </q-item>
             </template>

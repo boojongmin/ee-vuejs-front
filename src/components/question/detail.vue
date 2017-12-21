@@ -17,7 +17,7 @@
               </q-card-main>
               <q-card-separator />
               <template v-if="jobQuestion !== {}">
-                <q-item v-for="(item, index) in jobQuestion.questions">
+                <q-item v-for="(item, index) in jobQuestion.questions" :key="item.questions">
                   <!-- <q-item-side icon="" /> -->
                   <q-item-main>
                     <q-item-tile label>{{index + 1}}. {{item}}</q-item-tile>

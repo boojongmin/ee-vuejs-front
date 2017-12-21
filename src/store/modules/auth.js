@@ -1,7 +1,7 @@
 import * as mType from '../mutation-types.js'
 import * as aType from '../action-types.js'
 import * as gType from '../getter-types.js'
-import api from '../../api/auth/auth.js'
+import api from '../../api/auth.js'
 
 const state = {
   isAuthenticated: false

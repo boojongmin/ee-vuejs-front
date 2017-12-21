@@ -1,7 +1,7 @@
 <template>
   <div>
     <ul class="breadcrumb">
-      <li v-for="item in items">
+      <li v-for="item in items" :key="item.path">
         <router-link :to="{path: item.path === '' ? '/' : item.path}">
           {{item.name}}
         </router-link>

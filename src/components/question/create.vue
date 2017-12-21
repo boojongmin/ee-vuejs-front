@@ -31,7 +31,7 @@
           <q-card-main>
             <q-list>
               <q-list-header>질문 목록</q-list-header>
-              <q-item v-for="(item, index) in questions" multiline>
+              <q-item v-for="(item, index) in questions" multiline :key="item.label">
                 <!--<q-item-side icon="note" />-->
                 <q-item-main>
                   <q-item-tile label>질문 <span>{{index + 1}}</span></q-item-tile>
