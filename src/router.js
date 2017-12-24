@@ -99,7 +99,7 @@ let router = new VueRouter({
             },
             {
               name: '질문 상세',
-              path: 'detail/:index',
+              path: 'detail',
               component: load('question/detail')
             }
 

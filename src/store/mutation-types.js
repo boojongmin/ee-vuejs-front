@@ -2,6 +2,9 @@ export const AUTH_SUCCESS = 'AUTH_SUCCESS'
 export const AUTH_FAILURE = 'AUTH_FAILURE'
 export const AUTH_LOGIN_SUCCESS = 'AUTH_LOGIN_SUCCESS'
 export const AUTH_LOGIN_FAILURE = 'AUTH_LOGIN_FAILURE'
+// Question Manage
+export const QM_LIST = 'QM_LIST'
+export const QM_DETAILS = 'QM_DETAILS'
 // Interviewset
 export const INTERVIEWSET_INIT = 'INTERVIEWSET_INIT'
 export const INTERVIEWSET_UPDATE_NAME = 'INTERVIEWSET_UPDATE_NAME'

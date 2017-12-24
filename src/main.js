@@ -44,29 +44,41 @@ import 'quasar-extras/material-icons'
 // import 'quasar-extras/fontawesome'
 // import 'quasar-extras/animate'
 
-// TODO 라우터쪽 코드 열라 더럽네 아놔...
-router.beforeEach((to, from, next) => {
-  console.error('ddd', to.path)
-  if (to.path !== '/' && to.path !== '/join') {
-    if (store.state.auth.isAuthenticated === false) {
-      next('/')
+async function validateJwt () {
+  let jwt = localStorage.getItem('ee.jwt')
+  if (jwt) {
+    try {
+      const result = await auth.isValidTokenCorutine(jwt)
+      return result.data.status
     }
-    next()
+    catch (e) {
+      console.error('error validateJwt')
+    }
   }
-  else {
-    let jwt = localStorage.getItem('ee.jwt')
-    if (jwt !== '') {
-      auth.isValidToken(() => {
-        store.state.auth.isAuthenticated = true
-        next('/dashboard')
-      }, () => {
-        next('/')
-      })
+  return false
+}
+
+router.beforeEach((to, from, next) => {
+  if (to.path === '/' || to.path === '/join') {
+    next()
+    return
+  }
+
+  if (store.state.auth.isAuthenticated) {
+    next()
+    return
+  }
+  validateJwt().then(x => {
+    if (x) {
+      store.state.auth.isAuthenticated = true
+      next()
     }
     else {
+      localStorage.removeItem('ee.jwt')
+      alert('로그인 세션이 만되되었거나 잘못된 인증 시도입니다. 로그인페이지로 이동합니다.')
       next('/')
     }
-  }
+  })
 })
 
 Quasar.start(() => {

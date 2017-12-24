@@ -17,10 +17,10 @@
               </q-card-main>
               <q-card-separator />
               <template v-if="jobQuestion !== {}">
-                <q-item v-for="(item, index) in jobQuestion.questions" :key="item.questions">
+                <q-item v-for="(item, index) in questionDetails" :key="item.id">
                   <!-- <q-item-side icon="" /> -->
                   <q-item-main>
-                    <q-item-tile label>{{index + 1}}. {{item}}</q-item-tile>
+                    <q-item-tile label>{{index + 1}}. {{item.message}}</q-item-tile>
                   </q-item-main>
                   <q-item-side right> <q-item-tile icon="keyboard arrow up" @click="moveQuestion(index, -1)"/> </q-item-side>
                   <q-item-side right> <q-item-tile icon="keyboard arrow down" @click="moveQuestion(index, 1)"/> </q-item-side>
@@ -45,6 +45,7 @@
 
 <script>
 import { Toast, Dialog } from 'quasar'
+
 export default {
   data () {
     return {
@@ -56,17 +57,14 @@ export default {
   },
   computed: {
     jobQuestion () {
-      let idx = this.questionIndex
-      if (idx === -1) {
-        return {}
-      }
-      else {
-        return this.$store.state.question.jobQuestions[idx]
-      }
+      return this.$store.state.question.jobQuestion
+    },
+    questionDetails () {
+      return this.$store.state.question.questionDetails
     }
   },
   mounted: function () {
-    this.questionIndex = this.$route.params.index
+    // this.questionIndex = this.$route.params.index
   },
   methods: {
     insertQuestion: function () {

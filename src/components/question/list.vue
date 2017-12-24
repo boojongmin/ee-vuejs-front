@@ -11,7 +11,7 @@
             <q-list highlight>
               <q-list-header>interviewset list</q-list-header>
               <template v-if="jobQuestions.length > 0">
-                <q-item v-for="(item, index) in jobQuestions" @click="$router.push('/question/detail/' + index)" :key="item.jobName">
+                <q-item v-for="(item, index) in jobQuestions" @click="moveQuestionDetails(item.id)" :key="item.jobName">
                   <q-item-side icon="note" />
                   <q-item-main>
                     <q-item-tile label>{{item.jobName}}</q-item-tile> 
@@ -41,6 +41,8 @@
 </template>
 
 <script>
+import * as aType from '../../store/action-types.js'
+
 export default {
   data () {
     return {
@@ -54,7 +56,15 @@ export default {
   methods: {
     createQuestion: function () {
       this.$router.push('/question/create')
+    },
+    moveQuestionDetails: function (jobQuestionId) {
+      // api.details(jobQuestionId).then(x => console.error(x))
+      this.$store.dispatch(aType.QM_DETAILS, jobQuestionId)
+      this.$router.push('/question/detail')
     }
+  },
+  mounted: function () {
+    this.$store.dispatch(aType.QM_LIST)
   }
 }
 </script>
