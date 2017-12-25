@@ -6,19 +6,19 @@ import api from '../../api/question'
 const state = {
   jobQuestions: [],
   // {id: 1,jobName: 'hello'}
-  jobQuestionId: 0
+  jobQuestionId: 0,
+  jobQuestion: {},
+  questions: []
 }
 
 const getters = {
   [gType.QM_JOB_QUESTION] (state) {
-    console.error('T-T', state)
-    if (state.jobQuestionId !== 0) {
-      const result = state.jobQuestions.filter(x => x.id === state.jobQuestionId)
-      if (result.length > 0) {
-        return result[0]
-      }
-      return {}
-    }
+    console.error('QM_JOB_QUESTION')
+    return state.jobQuestion
+  },
+  [gType.QM_QUESTION_LIST] (state) {
+    console.error('QM_QUESTION_LIST')
+    return state.questions
   }
 }
 
@@ -26,12 +26,13 @@ const mutations = {
   [mType.QM_LIST] (state, list) {
     state.jobQuestions = list
   },
-  // [mType.QM_DETAILS] (state, {jobQuestion, details}) {
-  //   state.jobQuestion = jobQuestion
-  //   state.questionDetails = details
-  // },
   [mType.QM_JOB_QUESTION_ID] (state, jobQuestionId) {
     state.jobQuestionId = jobQuestionId
+  },
+  [mType.QM_DETAILS] (state, {jobQuestion, questions}) {
+    console.error('QM_DETAILS', jobQuestion, questions)
+    state.jobQuestion = jobQuestion
+    state.questions = questions
   }
 }
 
@@ -39,12 +40,14 @@ const actions = {
   [aType.QM_LIST] ({commit, state}) {
     const list = api.list()
     list.then(x => {
-      console.error('list ', x)
       commit(mType.QM_LIST, x)
     })
   },
   async [aType.QM_DETAILS] ({commit, state}, jobQuestionId) {
-    commit(mType.QM_DETAILS, {jobQuestion: state.jobQuestions.filter(x => x.id === jobQuestionId)[0], details: await api.details(jobQuestionId)})
+    commit(mType.QM_DETAILS, {
+      jobQuestion: state.jobQuestions.filter(x => x.id === jobQuestionId)[0],
+      questions: await api.details(jobQuestionId)
+    })
   }
 }
 

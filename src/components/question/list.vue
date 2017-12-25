@@ -43,7 +43,7 @@
 
 <script>
 import * as aType from '../../store/action-types.js'
-import * as mType from '../../store/mutation-types.js'
+// import * as mType from '../../store/mutation-types.js'
 
 export default {
   data () {
@@ -60,9 +60,8 @@ export default {
       this.$router.push('/question/create')
     },
     moveQuestionDetails: function (jobQuestionId) {
-      // api.details(jobQuestionId).then(x => console.error(x))
-      // this.$store.dispatch(aType.QM_DETAILS, jobQuestionId)
-      this.$store.commit(mType.QM_JOB_QUESTION_ID, jobQuestionId)
+      // this.$store.commit(mType.QM_JOB_QUESTION_ID, jobQuestionId)
+      this.$store.dispatch(aType.QM_DETAILS, jobQuestionId)
       this.$router.push('/question/detail')
     }
   },

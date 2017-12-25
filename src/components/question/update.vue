@@ -24,13 +24,7 @@
     <div class="row">
       <div class="col-md-10">
         <q-card>
-          <q-card-title> 질문 입력 </q-card-title>
-          <q-card-main>
-              <q-field icon="assignment ind" label="질문" helper="질문을 입력후 화살표를 눌러주세요" >
-                <q-input type="text" v-model="temp.question" @keyup.enter.native="insertQuestion"  :after="[ { icon: 'arrow_forward', content: true, handler: insertQuestion } ]"/>
-              </q-field>
-          </q-card-main>
-          <q-card-separator />
+          <q-card-title> 질문 </q-card-title>
           <q-card-main>
             <q-list>
               <q-list-header>질문 목록(subLabel 글자가 작은지 체크)</q-list-header>
@@ -48,16 +42,19 @@
                 <q-item-side right> <q-item-tile icon="keyboard arrow up" @click="moveQuestion(index, -1)"/> </q-item-side>
                 <q-item-side right> <q-item-tile icon="keyboard arrow down" @click="moveQuestion(index, 1)"/> </q-item-side>
                 <q-item-side right> <q-item-tile icon="delete" @click="deleteQuestion(index)"/> </q-item-side>
-
               </q-item>
             </q-list>
           </q-card-main>
+          <q-card-main>
+              <q-field icon="assignment ind" label="질문" helper="질문을 입력후 화살표를 눌러주세요" >
+                <q-input type="text" v-model="temp.question" @keyup.enter.native="insertQuestion"  :after="[ { icon: 'arrow_forward', content: true, handler: insertQuestion } ]"/>
+              </q-field>
+          </q-card-main>
+          <q-card-separator />
+          <q-card-main class="text-right">
+            <q-btn round color="primary" @click="updateToCreateQuestion">저장</q-btn>
+          </q-card-main>
         </q-card>
-      </div>
-    </div>
-    <div class="row" v-if="questions.length > 0">
-      <div class="col-md-10 text-right">
-        <q-btn @click="updateToCreateQuestion">직종별 질문 생성 완료</q-btn>
       </div>
     </div>
   </div>
@@ -66,6 +63,7 @@
 <script>
 import { Toast } from 'quasar'
 import api from '../../api/question'
+import * as aType from '../../store/action-types'
 import * as gType from '../../store/getter-types'
 import {mapGetters} from 'vuex'
 
@@ -97,6 +95,7 @@ export default {
     if (this.jobQuestion === {}) {
       this.$router.push('/question')
     }
+    this.temp.jobName = this.jobQuestion.jobName
     api.details(this.jobQuestion.id).then(list => { this.questions = list })
   },
   methods: {
@@ -109,17 +108,17 @@ export default {
         return
       }
       this.jobName = this.temp.jobName
-      Toast.create.positive(this.jobName + '직업명이 저장되었습니다.')
+      // Toast.create.positive(this.jobName + '직업명이 저장되었습니다.')
     },
     insertQuestion: function () {
       if (this.temp.question.length < 5) {
         Toast.create.negative('5글자 이상을 입력해주세요')
         return
       }
-      // TODO use == false인 questionDetai은  orderNumber를 세지 않아 orderNumber가 겹치는 버그가 있다.
-      this.questions.push(Object.assign({}, {id: 0, message: this.temp.question, use: true, orderNumber: (this.questions[this.questions.length -1].orderNumber + 1 )}))
+      // TODO use == false인 questionDetai은  orderNumber를 세지 않아 orderNumber가 겹치는 버그(?)가 있다.
+      this.questions.push(Object.assign({}, { id: 0, message: this.temp.question, use: true, orderNumber: (this.questions[this.questions.length - 1].orderNumber + 1) }))
       this.temp.question = ''
-      Toast.create.positive('질문이 추가되었습니다.')
+      // Toast.create.positive('질문이 추가되었습니다.')
     },
     moveQuestion: function (index, addIndex) {
       let length = this.questions.length
@@ -145,8 +144,9 @@ export default {
       const jobQuestion = Object.assign({}, this.jobQuestion)
       const questions = Object.assign([], this.questions)
       api.updateQuestion({ jobQuestion, questions })
-        .then(() => {
+        .then((x) => {
           Toast.create.positive('저장되었습니다.')
+          this.$store.dispatch(aType.QM_DETAILS, jobQuestion.id)
           this.$router.push('/question/detail')
         })
         .catch(e => { Toast.create.negative('저장에 실패했습니다.(서버)') })

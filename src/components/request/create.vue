@@ -7,9 +7,9 @@
           <q-card-separator />
           <q-card-main>
             <template v-if="jobQuestion !== {}">
-              <q-item v-for="(item, index) in jobQuestion.questions" :key="item">
+              <q-item v-for="(item, index) in questions" :key="item.id">
                 <!-- <q-item-side icon="" /> -->
-                <q-item-main> <q-item-tile label>{{index + 1}}. {{item}}</q-item-tile> </q-item-main> </q-item>
+                <q-item-main> <q-item-tile label>{{index + 1}}. {{item.message}}</q-item-tile> </q-item-main> </q-item>
             </template>
             <template v-else>
               <q-item> <q-item-side icon="note" /> <q-item-main>질문이 없습니다. </q-item-main> </q-item>
@@ -61,7 +61,7 @@
             </blockquote>
           </q-card-main>
           <q-card-separator />
-          <q-card-main>
+          <q-card-main class="text-right">
             <q-btn color="green">인터뷰요청하기</q-btn>
             <q-btn color="red" @click="$router.go(-1)">취소</q-btn>
           </q-card-main>
@@ -73,6 +73,8 @@
 
 <script>
 // import { Toast } from 'quasar'
+import * as gType from '../../store/getter-types'
+import {mapGetters} from 'vuex'
 
 export default {
   data () {
@@ -87,21 +89,10 @@ export default {
     }
   },
   computed: {
-    jobQuestion () {
-      if (this.jobQuestionId === -1) {
-        return {}
-      }
-      let jId = parseInt(this.jobQuestionId)
-      let jobQuestions = this.$store.state.question.jobQuestions.filter(x => x.id === jId)
-      if (jobQuestions.length > 0) {
-        return jobQuestions[0]
-      }
-    }
-  },
-  mounted () {
-    console.log(this.$route.params)
-    console.log(this.$store.state.question.jobQuestions)
-    this.jobQuestionId = this.$route.params.id
+    ...mapGetters({
+      jobQuestion: gType.QM_JOB_QUESTION,
+      questions: gType.QM_QUESTION_LIST
+    })
   },
   methods: {
     // insertJobName: function () {

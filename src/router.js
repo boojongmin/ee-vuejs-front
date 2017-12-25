@@ -123,7 +123,7 @@ let router = new VueRouter({
             },
             {
               name: '인터뷰 요청하기',
-              path: 'create/:id',
+              path: 'create',
               component: load('request/create')
             }
           ]

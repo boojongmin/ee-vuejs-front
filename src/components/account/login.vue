@@ -46,7 +46,6 @@ export default {
       let cb = (token) => {
         localStorage.setItem('ee.jwt', token)
         this.$router.push('/dashboard')
-        console.error('hello')
       }
       let errorCb = () => Toast.create.negative('아이디, 패스워드가 일치하지 않거나 존재하지 않는 계정입니다.')
       this.login({email: this.email, password: this.password, cb, errorCb})

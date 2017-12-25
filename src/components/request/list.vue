@@ -4,14 +4,14 @@
       <div class="col-sm-12 col-md-6">
         <q-card>
           <q-card-title>
-             인터뷰 요청 보내기
+             인터뷰 요청
           </q-card-title>
           <q-card-separator />
           <q-card-main>
             <q-list highlight>
-              <q-list-header>interviewset list</q-list-header>
+              <q-list-header>인터뷰 질문 목록중 하나를 선택해주세요</q-list-header>
               <template v-if="jobQuestions.length > 0">
-                <q-item v-for="(item, index) in jobQuestions" :key="item.id" @click="$router.push('/request/create/' + item.id)">
+                <q-item v-for="(item, index) in jobQuestions" :key="item.id" @click="requestInterview(item.id)">
                   <q-item-side icon="note" color="green" />
                   <q-item-main>
                     <q-item-tile label>{{item.jobName}}</q-item-tile> 
@@ -41,6 +41,8 @@
 </template>
 
 <script>
+import * as aType from '../../store/action-types'
+
 export default {
   data () {
     return {
@@ -52,7 +54,11 @@ export default {
     }
   },
   methods: {
-    createQuestion: function () {
+    requestInterview (jobQuestionId) {
+      this.$store.dispatch(aType.QM_DETAILS, jobQuestionId)
+      this.$router.push('/request/create')
+    },
+    createQuestion () {
       this.$router.push('/question/create')
     }
   }

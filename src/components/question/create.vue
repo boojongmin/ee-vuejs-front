@@ -39,7 +39,7 @@
                 <q-item-main>
                   <q-item-tile label>질문 <span>{{index + 1}}</span></q-item-tile>
                   <q-item-tile sublabel>
-                   {{item}}asdfasdfaslkdfjas;kldfj as;dfkljas;dlfkjlasjfja;s dfjasfjkas;kldfjasldfj asl;kfjalsdfkjasdflasdfasdfsf
+                   {{item}}
                   </q-item-tile>
                 </q-item-main>
                 <!--<q-item-main>-->
@@ -123,7 +123,8 @@ export default {
         questions: Object.assign([], this.questions)
       }
       api.createQuestion(jobQuestions)
-      this.$router.push('/question')
+        .then(x => { this.$router.push('/question') })
+        .catch(e => Toast.negative.create('질문 생성되지 않았습니다.'))
     }
   }
 }

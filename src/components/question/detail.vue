@@ -14,7 +14,7 @@
               <q-list-header>인터뷰 질문</q-list-header>
               <q-card-separator />
               <template v-if="jobQuestion !== {}">
-                <q-item v-for="(item, index) in questionDetails" :key="item.id">
+                <q-item v-for="(item, index) in questions" :key="item.id">
                   <q-item-main>
                     <q-item-tile label>{{index + 1}}. {{item.message}}</q-item-tile>
                   </q-item-main>
@@ -35,12 +35,11 @@
 // import { Toast, Dialog } from 'quasar'
 import * as gType from '../../store/getter-types'
 import {mapGetters} from 'vuex'
-import api from '../../api/question.js'
+// import api from '../../api/question.js'
 
 export default {
   data () {
     return {
-      questionDetails: [],
       temp: {
         question: ''
       },
@@ -48,10 +47,14 @@ export default {
     }
   },
   computed: {
-    ...mapGetters({jobQuestion: gType.QM_JOB_QUESTION})
+    ...mapGetters({
+      jobQuestion: gType.QM_JOB_QUESTION,
+      questions: gType.QM_QUESTION_LIST
+    })
   },
   mounted: function () {
-    api.details(this.jobQuestion.id).then(list => { this.questionDetails = list })
+    // api.details(this.jobQuestion.id).then(list => { this.questions = list })
+    console.error('ddd11', this.jobQuestion)
   },
   methods: {
     modifyJobQuestion: function () {
