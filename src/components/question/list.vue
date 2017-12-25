@@ -1,7 +1,12 @@
 <template>
   <div>
+    <div class="row" style="margin-bottom: 30px;">
+      <div class="col-md-12 text-right">
+        <q-btn @click="createQuestion()" color="primary" big> <q-icon name="create"/>질문 생성</q-btn>
+      </div>
+    </div>
     <div class="row">  
-      <div class="col-sm-12 col-md-6">
+      <div class="col-sm-12 col-md-12">
         <q-card>
           <q-card-title>
             직종별 질문 목록
@@ -32,16 +37,13 @@
         </q-card>
       </div> <!-- end row -->
     </div>
-    <div class="row" style="margin-bottom: 30px;">
-      <div class="col-md-12">
-        <q-btn @click="createQuestion()" color="primary" big> <q-icon name="create"/> 직종별 질문 만들기 </q-btn>
-      </div>
-    </div>
+    
   </div>
 </template>
 
 <script>
 import * as aType from '../../store/action-types.js'
+import * as mType from '../../store/mutation-types.js'
 
 export default {
   data () {
@@ -59,7 +61,8 @@ export default {
     },
     moveQuestionDetails: function (jobQuestionId) {
       // api.details(jobQuestionId).then(x => console.error(x))
-      this.$store.dispatch(aType.QM_DETAILS, jobQuestionId)
+      // this.$store.dispatch(aType.QM_DETAILS, jobQuestionId)
+      this.$store.commit(mType.QM_JOB_QUESTION_ID, jobQuestionId)
       this.$router.push('/question/detail')
     }
   },

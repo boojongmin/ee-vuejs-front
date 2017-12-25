@@ -7,7 +7,7 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-sm-12 col-md-6">
+      <div class="col-sm-12 col-md-12">
         <q-card>
           <q-card-title>
             Interviewset List
@@ -28,27 +28,7 @@
             </q-list>
           </q-card-main>
         </q-card>
-      </div> <!-- end row -->
-      <div class="col-sm-12 col-md-6">
-        <q-card>
-          <q-card-title>
-            Interviewset Detail
-          </q-card-title>
-          <q-card-separator />
-          <q-card-main>
-            <q-list highlight>
-              <q-list-header>JAVA 프로그래머 detail</q-list-header>
-              <q-item v-for="(item, index) in questions" :key="item.question"> {{index + 1}}. {{item.question}} </q-item>
-            </q-list>
-          </q-card-main>
-          <q-card-separator />
-          <div class="row text-right">
-            <div class="col-12">
-              <q-btn @click="$router.push('/interviewset/request-interview')" color="primary">request interview</q-btn>
-            </div>
-          </div>
-        </q-card>
-      </div> <!-- end row -->
+      </div>
     </div>
   </div>
 </template>
@@ -89,11 +69,11 @@ export default {
     moveForm () {
       this.$store.commit(mType.INTERVIEWSET_INIT)
       this.$router.push('/interviewset/form')
-    },
-    showInterviewsetQuestions (index) {
-      this.questionIndex = index
-      console.log(this.questionIndex)
-    }
+    }// ,
+    // showInterviewsetQuestions (index) {
+    //   this.questionIndex = index
+    //   console.log(this.questionIndex)
+    // }
   }
 }
 </script>

@@ -4,6 +4,7 @@ export const AUTH_LOGIN_SUCCESS = 'AUTH_LOGIN_SUCCESS'
 export const AUTH_LOGIN_FAILURE = 'AUTH_LOGIN_FAILURE'
 // Question Manage
 export const QM_LIST = 'QM_LIST'
+export const QM_JOB_QUESTION_ID = 'QM_JOB_QUESTIO_ID'
 export const QM_DETAILS = 'QM_DETAILS'
 // Interviewset
 export const INTERVIEWSET_INIT = 'INTERVIEWSET_INIT'

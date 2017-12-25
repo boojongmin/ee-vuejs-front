@@ -186,7 +186,6 @@ export default {
     removeQuestionFromList: function (index, id) {
       if (confirm('질문 목록에서 제외하시겠습니까?')) {
         let list = this.questions.filter(x => x.id === id)
-        console.log('list2', list)
         if (list.length > 0) {
           this.questions.splice(index, 1)
           let subList = this.allQuestions.filter(x => x.id === id)

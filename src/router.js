@@ -101,6 +101,11 @@ let router = new VueRouter({
               name: '질문 상세',
               path: 'detail',
               component: load('question/detail')
+            },
+            {
+              name: '질문 수정',
+              path: 'update',
+              component: load('question/update')
             }
 
           ]

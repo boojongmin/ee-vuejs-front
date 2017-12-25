@@ -21,7 +21,7 @@
         </q-card>
       </div>
     </div>
-    <div class="row" v-if="jobName !== ''">
+    <div class="row">
       <div class="col-md-10">
         <q-card>
           <q-card-title> 질문 입력 </q-card-title>
@@ -34,12 +34,12 @@
           <q-card-main>
             <q-list>
               <q-list-header>질문 목록(subLabel 글자가 작은지 체크)</q-list-header>
-              <q-item v-for="(item, index) in questions" multiline :key="item.label">
+              <q-item v-for="(item, index) in filteredQuestions" multiline :key="item.id">
                 <!--<q-item-side icon="note" />-->
                 <q-item-main>
                   <q-item-tile label>질문 <span>{{index + 1}}</span></q-item-tile>
                   <q-item-tile sublabel>
-                   {{item}}asdfasdfaslkdfjas;kldfj as;dfkljas;dlfkjlasjfja;s dfjasfjkas;kldfjasldfj asl;kfjalsdfkjasdflasdfasdfsf
+                   {{item.message}}
                   </q-item-tile>
                 </q-item-main>
                 <!--<q-item-main>-->
@@ -57,7 +57,7 @@
     </div>
     <div class="row" v-if="questions.length > 0">
       <div class="col-md-10 text-right">
-        <q-btn @click="doneToCreateQuestion">직종별 질문 생성 완료</q-btn>
+        <q-btn @click="updateToCreateQuestion">직종별 질문 생성 완료</q-btn>
       </div>
     </div>
   </div>
@@ -66,6 +66,8 @@
 <script>
 import { Toast } from 'quasar'
 import api from '../../api/question'
+import * as gType from '../../store/getter-types'
+import {mapGetters} from 'vuex'
 
 export default {
   data () {
@@ -74,10 +76,28 @@ export default {
         jobName: '',
         question: ''
       },
-      jobName: '',
-      questions: [],
-      isUpdate: false
+      questions: []
     }
+  },
+  computed: {
+    ...mapGetters({ jobQuestion: gType.QM_JOB_QUESTION }),
+    jobName: {
+      get: function () {
+        return this.jobQuestion.jobName
+      },
+      set: function (jobName) {
+        this.jobQuestion.jobName = jobName
+      }
+    },
+    filteredQuestions: function () {
+      return this.questions.filter(x => x.use === true)
+    }
+  },
+  mounted: function () {
+    if (this.jobQuestion === {}) {
+      this.$router.push('/question')
+    }
+    api.details(this.jobQuestion.id).then(list => { this.questions = list })
   },
   methods: {
     modifyJobName: function () {
@@ -96,7 +116,8 @@ export default {
         Toast.create.negative('5글자 이상을 입력해주세요')
         return
       }
-      this.questions.push(this.temp.question)
+      // TODO use == false인 questionDetai은  orderNumber를 세지 않아 orderNumber가 겹치는 버그가 있다.
+      this.questions.push(Object.assign({}, {id: 0, message: this.temp.question, use: true, orderNumber: (this.questions[this.questions.length -1].orderNumber + 1 )}))
       this.temp.question = ''
       Toast.create.positive('질문이 추가되었습니다.')
     },
@@ -110,20 +131,25 @@ export default {
       let swap2 = this.questions[moveIndex]
       this.questions.splice(moveIndex, 1, swap1)
       this.questions.splice(index, 1, swap2)
+      let tempOrderNumber = swap1.orderNumber
+      swap1.orderNumber = swap2.orderNumber
+      swap2.orderNumber = tempOrderNumber
       Toast.create.positive('질문 순서가 변경되었습니다.')
     },
     deleteQuestion: function (index) {
       if (confirm('삭제하시겠습니까?')) {
-        this.questions.splice(index, 1)
+        this.questions[index].use = false
       }
     },
-    doneToCreateQuestion: function () {
-      const jobQuestions = {
-        jobName: this.jobName,
-        questions: Object.assign([], this.questions)
-      }
-      api.createQuestion(jobQuestions)
-      this.$router.push('/question')
+    updateToCreateQuestion: function () {
+      const jobQuestion = Object.assign({}, this.jobQuestion)
+      const questions = Object.assign([], this.questions)
+      api.updateQuestion({ jobQuestion, questions })
+        .then(() => {
+          Toast.create.positive('저장되었습니다.')
+          this.$router.push('/question/detail')
+        })
+        .catch(e => { Toast.create.negative('저장에 실패했습니다.(서버)') })
     }
   }
 }
