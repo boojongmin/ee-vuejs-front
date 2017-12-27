@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="row">  
-      <div class="col-sm-12 col-md-6">
+      <div class="col-sm-12 col-md-12">
         <q-card>
           <q-card-title>
              인터뷰 요청
@@ -32,11 +32,11 @@
         </q-card>
       </div> <!-- end row -->
     </div>
-    <div class="row" style="margin-bottom: 30px;">
+    <!-- <div class="row" style="margin-bottom: 30px;">
       <div class="col-md-12">
         <q-btn @click="createQuestion()" color="primary" big> <q-icon name="create"/> 직종별 질문 만들기 </q-btn>
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -46,6 +46,7 @@ import * as aType from '../../store/action-types'
 export default {
   data () {
     return {
+      moreJobQuestions: false
     }
   },
   computed: {
@@ -55,12 +56,15 @@ export default {
   },
   methods: {
     requestInterview (jobQuestionId) {
-      this.$store.dispatch(aType.QM_DETAILS, jobQuestionId)
-      this.$router.push('/request/create')
-    },
-    createQuestion () {
-      this.$router.push('/question/create')
+      const cb = () => {
+        console.error('--->>>>')
+        this.$router.push('/request/create')
+      }
+      this.$store.dispatch(aType.QM_DETAILS, {jobQuestionId, cb})
     }
+  },
+  mounted: function () {
+    this.$store.dispatch(aType.QM_LIST)
   }
 }
 </script>

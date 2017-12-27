@@ -80,7 +80,6 @@ router.beforeEach((to, from, next) => {
     }
   })
 })
-
 Quasar.start(() => {
   /* eslint-disable no-new */
   new Vue({
@@ -89,4 +88,6 @@ Quasar.start(() => {
     store,
     render: h => h(require('./App').default)
   })
+  if (process.env.NODE_ENV === 'development') {
+  }
 })

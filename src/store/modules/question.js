@@ -29,10 +29,10 @@ const mutations = {
   [mType.QM_JOB_QUESTION_ID] (state, jobQuestionId) {
     state.jobQuestionId = jobQuestionId
   },
-  [mType.QM_DETAILS] (state, {jobQuestion, questions}) {
-    console.error('QM_DETAILS', jobQuestion, questions)
+  [mType.QM_DETAILS] (state, {jobQuestion, questions, cb}) {
     state.jobQuestion = jobQuestion
     state.questions = questions
+    if (cb !== undefined) cb()
   }
 }
 
@@ -43,10 +43,11 @@ const actions = {
       commit(mType.QM_LIST, x)
     })
   },
-  async [aType.QM_DETAILS] ({commit, state}, jobQuestionId) {
+  async [aType.QM_DETAILS] ({commit, state}, {jobQuestionId, cb}) {
     commit(mType.QM_DETAILS, {
       jobQuestion: state.jobQuestions.filter(x => x.id === jobQuestionId)[0],
-      questions: await api.details(jobQuestionId)
+      questions: await api.details(jobQuestionId, cb),
+      cb: cb
     })
   }
 }
